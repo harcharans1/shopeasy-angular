@@ -1,0 +1,238 @@
+<header class="navbar">
+  <div class="container nav-content">
+
+    <div class="logo">
+      <span>🛍️</span>
+      ShopEasy
+    </div>
+
+    <div class="search-box">
+      <input
+        type="text"
+        placeholder="Search products..."
+        [(ngModel)]="searchText"
+      />
+      <span>🔍</span>
+    </div>
+
+    <div class="cart-button">
+      🛒 Cart
+      <span class="cart-count">{{ cartCount }}</span>
+    </div>
+
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container hero-content">
+
+    <div class="hero-text">
+      <p class="small-title">WELCOME TO SHOPEASY</p>
+
+      <h1>
+        Everything you need,
+        <span>in one place.</span>
+      </h1>
+
+      <p class="hero-description">
+        Discover amazing products at great prices.
+        Shop your favourites and get them delivered to your door.
+      </p>
+
+      <button class="shop-now">
+        Shop Now ↓
+      </button>
+    </div>
+
+    <div class="hero-image">
+      <div class="hero-card">
+        🛍️
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="products-section">
+  <div class="container">
+
+    <div class="section-header">
+      <div>
+        <p class="small-title">OUR PRODUCTS</p>
+        <h2>Popular Products</h2>
+      </div>
+
+      <div class="categories">
+        <button
+          [class.active]="selectedCategory === 'All'"
+          (click)="selectedCategory = 'All'">
+          All
+        </button>
+
+        <button
+          [class.active]="selectedCategory === 'Electronics'"
+          (click)="selectedCategory = 'Electronics'">
+          Electronics
+        </button>
+
+        <button
+          [class.active]="selectedCategory === 'Fashion'"
+          (click)="selectedCategory = 'Fashion'">
+          Fashion
+        </button>
+
+        <button
+          [class.active]="selectedCategory === 'Home'"
+          (click)="selectedCategory = 'Home'">
+          Home
+        </button>
+      </div>
+    </div>
+
+    <div class="product-grid">
+
+      <div
+        class="product-card"
+        *ngFor="let product of filteredProducts">
+
+        <div class="product-image">
+          <img
+            [src]="product.image"
+            [alt]="product.name"
+          />
+        </div>
+
+        <div class="product-info">
+
+          <p class="category">
+            {{ product.category }}
+          </p>
+
+          <h3>
+            {{ product.name }}
+          </h3>
+
+          <div class="product-bottom">
+
+            <strong>
+              {{ formatPrice(product.price) }}
+            </strong>
+
+            <button
+              class="add-button"
+              (click)="addToCart(product)">
+              + Add
+            </button>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div
+      class="no-products"
+      *ngIf="filteredProducts.length === 0">
+
+      😕 No products found.
+
+    </div>
+
+  </div>
+</section>
+
+<section class="cart-section">
+  <div class="container">
+
+    <div class="cart-header">
+      <div>
+        <p class="small-title">YOUR SHOPPING BAG</p>
+        <h2>Shopping Cart</h2>
+      </div>
+
+      <div class="total">
+        Total:
+        <strong>{{ formatPrice(cartTotal) }}</strong>
+      </div>
+    </div>
+
+    <div
+      class="empty-cart"
+      *ngIf="cart.length === 0">
+
+      🛒
+      <h3>Your cart is empty</h3>
+      <p>Add some products to your cart.</p>
+
+    </div>
+
+    <div
+      class="cart-list"
+      *ngIf="cart.length > 0">
+
+      <div
+        class="cart-item"
+        *ngFor="let item of cart">
+
+        <img
+          [src]="item.image"
+          [alt]="item.name"
+        />
+
+        <div class="cart-item-info">
+          <h3>{{ item.name }}</h3>
+          <p>{{ formatPrice(item.price) }}</p>
+        </div>
+
+        <div class="quantity">
+
+          <button
+            (click)="decreaseQuantity(item)">
+            −
+          </button>
+
+          <span>{{ item.quantity }}</span>
+
+          <button
+            (click)="increaseQuantity(item)">
+            +
+          </button>
+
+        </div>
+
+        <strong class="item-total">
+          {{ formatPrice(item.price * item.quantity) }}
+        </strong>
+
+        <button
+          class="remove"
+          (click)="removeFromCart(item)">
+          ✕
+        </button>
+
+      </div>
+
+      <button class="checkout-button">
+        Proceed to Checkout →
+      </button>
+
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-content">
+
+    <div>
+      <div class="logo">
+        🛍️ ShopEasy
+      </div>
+      <p>Your favourite online shopping destination.</p>
+    </div>
+
+    <p>© 2026 ShopEasy. All rights reserved.</p>
+
+  </div>
+</footer>
