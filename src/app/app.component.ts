@@ -1,8 +1,11 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
   standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -59,8 +62,11 @@ export class AppComponent {
 
   get filteredProducts() {
     return this.products.filter(product => {
+
       const matchesSearch =
-        product.name.toLowerCase().includes(this.searchText.toLowerCase());
+        product.name
+          .toLowerCase()
+          .includes(this.searchText.toLowerCase());
 
       const matchesCategory =
         this.selectedCategory === 'All' ||
@@ -71,10 +77,12 @@ export class AppComponent {
   }
 
   addToCart(product: any) {
-    const existing = this.cart.find(item => item.id === product.id);
+    const existingProduct = this.cart.find(
+      item => item.id === product.id
+    );
 
-    if (existing) {
-      existing.quantity++;
+    if (existingProduct) {
+      existingProduct.quantity++;
     } else {
       this.cart.push({
         ...product,
@@ -88,6 +96,7 @@ export class AppComponent {
   }
 
   decreaseQuantity(item: any) {
+
     if (item.quantity > 1) {
       item.quantity--;
     } else {
@@ -96,7 +105,9 @@ export class AppComponent {
   }
 
   removeFromCart(item: any) {
-    this.cart = this.cart.filter(product => product.id !== item.id);
+    this.cart = this.cart.filter(
+      product => product.id !== item.id
+    );
   }
 
   get cartCount() {
@@ -108,7 +119,8 @@ export class AppComponent {
 
   get cartTotal() {
     return this.cart.reduce(
-      (total, item) => total + item.price * item.quantity,
+      (total, item) =>
+        total + item.price * item.quantity,
       0
     );
   }
